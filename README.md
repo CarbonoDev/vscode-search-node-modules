@@ -7,7 +7,6 @@
 ![](https://vsmarketplacebadge.apphb.com/rating-short/carbonodev.search-vendor.svg
 )](https://marketplace.visualstudio.com/items?itemName=carbonodev.search-vendor)
 
-![](https://raw.githubusercontent.com/carbonodev/vscode-search-vendor/master/img/demo.gif)
 
 
 * Based on Search Node Modules extension by Jason Nutter: [https://github.com/jasonnutter/vscode-search-node-modules](https://github.com/jasonnutter/vscode-search-node-modules)
