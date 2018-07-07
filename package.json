@@ -66,7 +66,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/carbonodev/search-vendor"
+        "url": "https://github.com/CarbonoDev/vscode-search-vendor"
     },
     "icon": "img/composer-logo.jpg",
     "pre-commit": [
