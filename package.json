@@ -68,7 +68,7 @@
         "type": "git",
         "url": "https://github.com/carbonodev/search-vendor"
     },
-    "icon": "img/composer-logo.png",
+    "icon": "img/composer-logo.jpg",
     "pre-commit": [
         "lint"
     ]
