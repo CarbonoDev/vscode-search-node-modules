@@ -6,20 +6,20 @@ var lastFolder = '';
 var lastWorkspaceName = '';
 var lastWorkspaceRoot = '';
 
-const nodeModules = 'node_modules';
+const vendor = 'vendor';
 
-const showError = message => vscode.window.showErrorMessage(`Search node_modules: ${message}`);
+const showError = message => vscode.window.showErrorMessage(`Search vendor: ${message}`);
 
 exports.activate = context => {
-    const searchNodeModules = vscode.commands.registerCommand('extension.search', () => {
-        const preferences = vscode.workspace.getConfiguration('search-node-modules');
+    const searchVendor = vscode.commands.registerCommand('extension.search_vendor', () => {
+        const preferences = vscode.workspace.getConfiguration('search-vendor');
 
         const useLastFolder = preferences.get('useLastFolder', false);
-        const nodeModulesPath = preferences.get('path', nodeModules);
+        const vendorPath = preferences.get('path', vendor);
 
         const searchPath = (workspaceName, workspaceRoot, folderPath) => {
-            // Path to node_modules in this workspace folder
-            const workspaceNodeModules = path.join(workspaceName, nodeModulesPath);
+            // Path to vendor in this workspace folder
+            const workspaceVendor = path.join(workspaceName, vendorPath);
 
             // Reset last folder
             lastFolder = '';
@@ -32,16 +32,16 @@ exports.activate = context => {
             // Read folder, built quick pick with files/folder (and shortcuts)
             fs.readdir(folderFullPath, (readErr, files) => {
                 if (readErr) {
-                    if (folderPath === nodeModulesPath) {
-                        return showError('No node_modules folder in this workspace.');
+                    if (folderPath === vendorPath) {
+                        return showError('No vendor folder in this workspace.');
                     }
 
                     return showError(`Unable to open folder ${folderPath}`);
                 }
 
-                if (folderPath !== nodeModulesPath) {
+                if (folderPath !== vendorPath) {
                     files.push('');
-                    files.push(workspaceNodeModules);
+                    files.push(workspaceVendor);
                     files.push('..');
                 }
 
@@ -49,9 +49,9 @@ exports.activate = context => {
                     placeHolder: path.join(workspaceName, folderPath)
                 })
                 .then(selected => {
-                    // node_modules shortcut selected
-                    if (selected === workspaceNodeModules) {
-                        searchPath(workspaceName, workspaceRoot, nodeModulesPath);
+                    // vendor shortcut selected
+                    if (selected === workspaceVendor) {
+                        searchPath(workspaceName, workspaceRoot, vendorPath);
                     } else {
                         const selectedPath = path.join(folderPath, selected);
                         const selectedFullPath = path.join(workspaceRoot, selectedPath);
@@ -95,17 +95,17 @@ exports.activate = context => {
             })
                 .then(selected => {
                     if (selected) {
-                        searchPath(selected.label, selected.folder.uri.fsPath, nodeModulesPath);
+                        searchPath(selected.label, selected.folder.uri.fsPath, vendorPath);
                     }
                 });
         } else {
             // Otherwise, use the first one
             const folder = vscode.workspace.workspaceFolders[0];
-            searchPath(folder.name, folder.uri.fsPath, nodeModulesPath);
+            searchPath(folder.name, folder.uri.fsPath, vendorPath);
         }
     });
 
-    context.subscriptions.push(searchNodeModules);
+    context.subscriptions.push(searchVendor);
 };
 
 exports.deactivate = () => {};
